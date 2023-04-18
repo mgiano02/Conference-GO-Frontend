@@ -20,7 +20,7 @@ function Nav() {
                     </ul>
                 </div>
             </div>
-        y</nav>
+        </nav>
     );
   }
 
