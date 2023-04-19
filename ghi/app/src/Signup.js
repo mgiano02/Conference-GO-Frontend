@@ -1,4 +1,4 @@
-import Reac, {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 function SignupForm() {
 
@@ -20,13 +20,30 @@ function SignupForm() {
         setEmail(value);
     }
 
+    const [hasSignedUp, setHasSignedUp] = useState(false);
+
+    // CSS classes for rendering
+  let spinnerClasses = 'd-flex justify-content-center mb-3';
+  let dropdownClasses = 'form-select d-none';
+  if (conferences.length > 0) {
+    spinnerClasses = 'd-flex justify-content-center mb-3 d-none';
+    dropdownClasses = 'form-select';
+  }
+
+  let messageClasses = 'alert alert-success d-none mb-0';
+  let formClasses = '';
+  if (hasSignedUp) {
+    messageClasses = 'alert alert-success mb-0';
+    formClasses = 'd-none';
+  }
+
         const handleSubmit = async (event) => {
             event.preventDefault();
 
             const data = {};
 
             data.name = name;
-            data.email = email
+            data.email = email;
             data.conference = conference;
             console.log(data);
 
@@ -45,6 +62,7 @@ function SignupForm() {
                 setConference('');
                 setName('');
                 setEmail('');
+                setHasSignedUp(true)
             }
         }
 
@@ -64,7 +82,7 @@ function SignupForm() {
           }, []);
 
     return (
-        <div className="my-5">
+        <div className="my-5 container">
         <div className="row">
         <div className="col col-sm-auto">
           <img width="300" className="bg-white rounded shadow d-block mx-auto mb-4" src="/logo.svg"/>
@@ -78,8 +96,8 @@ function SignupForm() {
                   Please choose which conference
                   you'd like to attend.
                 </p>
-                <div className="d-flex justify-content-center mb-3" id="loading-conference-spinner">
-                  <div className="spinner-grow text-secondary d-none" role="status">
+                <div className={spinnerClasses} id="loading-conference-spinner">
+                  <div className="spinner-grow text-secondary" role="status">
                     <span className="visually-hidden">Loading...</span>
                   </div>
                 </div>
@@ -114,7 +132,7 @@ function SignupForm() {
                 </div>
                 <button className="btn btn-lg btn-primary">I'm going!</button>
               </form>
-              <div className="alert alert-success d-none mb-0" id="success-message">
+              <div className={messageClasses} id="success-message">
                 Congratulations! You're all signed up!
               </div>
             </div>
